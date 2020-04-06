@@ -13,17 +13,18 @@ import './styles.scss';
 const Recordings = () => {
     const recordings = useSelector((state) => state.recordings);
     const todos = useSelector((state) => state.todos);
+
     const [currentItems, setCurrentItems] = useState([]);
     const [recordingItems, setRecordingItems] = useState([]);
     const [play, setPlay] = useState(false);
     const dispatch = useDispatch();
     const setRecordObj = (record) => {
-        let obj;
+        let obj = {};
         if (record.action === 'update') {
             obj = record.param;
             obj['action'] = 'update';
         } else {
-            obj = todos[record.id];
+            obj = {...todos[record.id]};
             obj['action'] = record.action;
         }
         return obj;
@@ -34,16 +35,16 @@ const Recordings = () => {
             const recordedList = [];
             const ids = [];
             if (recordings[id].currentItems.length === 0) {
-                recordings[id].recordedIDs.map((record) => {
+                recordings[id].recordedIDs.forEach((record) => {
                     recordedList.push(setRecordObj(record));
                 });
                 setRecordingItems(recordedList);
             } else {
-                recordings[id].currentItems.map((v) => {
+                recordings[id].currentItems.forEach((v) => {
                     const list = Object.keys(todos).filter(i => todos[i].parent === v && recordings[id]);
                     const listSorted = list.sort((a, b) => (todos[a].createdAt > todos[b].createdAt ? -1 : 1));
                     let selectedID;
-                    recordings[id].recordedIDs.map((record) => {
+                    recordings[id].recordedIDs.forEach((record) => {
                         if (record.action === 'update') {
                             if (listSorted.indexOf(record.param.id) > -1) {
                                 const index = listSorted.findIndex(i => i === record.param.id);

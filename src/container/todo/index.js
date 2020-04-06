@@ -23,9 +23,17 @@ const Todos = () => {
     const [recordData, setRecordData] = useState([]);
     const dispatch = useDispatch();
     const todoList = useSelector((state) => state.todos);
+    const disabledParent = []
+    Object.keys(todoList).forEach(
+        (v) => {
+            if (todoList[v].disabled) {
+                disabledParent.push(todoList[v].parent)
+            }
+        }
+    )
     const todoListFiltered = Object.keys(todoList).filter(
-        (v) => !todoList[v].disabled && !todoList[v].type
-    );
+        (v) => !todoList[v].disabled  && !todoList[v].type
+    ).filter(id => disabledParent.indexOf(id) === -1)
     const closeFormModal = () => {
         setDisplayModal(!displayModal);
         setEditObj({});
@@ -33,9 +41,14 @@ const Todos = () => {
     const todoFunc = (values) => {
         let id, action;
         if (typeof values !== 'object') {
-            id = values;
             action = 'remove';
-            dispatch(removeTodo(id));
+            id = values;
+            const newValues = {};
+            newValues['parent'] = id;
+            newValues['disabled'] = true;
+            newValues['id'] = uniqid();
+            newValues['createdAt'] = Date.now();
+            dispatch(updateTodo(newValues));
         } else {
             if (!values.id) {
                 id = uniqid();
@@ -46,7 +59,6 @@ const Todos = () => {
             } else {
                 id = values.id;
                 action = 'update';
-
                 values['type'] = 1;
                 values['parent'] = id;
                 values['id'] = uniqid();
@@ -125,11 +137,13 @@ const Todos = () => {
                         onClick={controlRecord}
                     />
                 </div>
-                <Button
-                    classes="button button--primary"
-                    text="Delete All"
-                    onClick={() => dispatch(emptyTodo())}
-                />
+                {!recordID && 
+                    <Button
+                        classes="button button--primary"
+                        text="Delete All"
+                        onClick={() => dispatch(emptyTodo())}
+                    />
+                }
             </div>
             {displayModal && (
                 <Modal
@@ -149,7 +163,7 @@ const Todos = () => {
                 <div className="todo__list">
                     {todoListFiltered.map((id) => {
                         const updatedID = Object.keys(todoList).filter(
-                            v => todoList[v].type && todoList[v].parent === id
+                            v => todoList[v].type && todoList[v].parent === id 
                         ).sort((a, b) => (todoList[a].createdAt > todoList[b].createdAt ? -1 : 1))[0];
                         return (
                             <Todo
