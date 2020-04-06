@@ -5,7 +5,9 @@ body {
 
 .svg {
   fill: #0a1e2d;
-  &:hover, &:focus {
-    fill: #F9491F;
+  @media (min-width:599px) {
+    &:hover, &:focus {
+      fill: #F9491F;
+    }
   }
 }
