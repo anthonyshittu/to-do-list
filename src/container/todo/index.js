@@ -10,7 +10,6 @@ import Icon from '../../svgs';
 import {
     addTodo,
     updateTodo,
-    removeTodo,
     emptyTodo
 } from '../../store/actions/todoActions';
 import { addRecording } from '../../store/actions/recordingActions';
@@ -23,17 +22,17 @@ const Todos = () => {
     const [recordData, setRecordData] = useState([]);
     const dispatch = useDispatch();
     const todoList = useSelector((state) => state.todos);
-    const disabledParent = []
+    const disabledParent = [];
     Object.keys(todoList).forEach(
         (v) => {
             if (todoList[v].disabled) {
-                disabledParent.push(todoList[v].parent)
+                disabledParent.push(todoList[v].parent);
             }
         }
-    )
+    );
     const todoListFiltered = Object.keys(todoList).filter(
-        (v) => !todoList[v].disabled  && !todoList[v].type
-    ).filter(id => disabledParent.indexOf(id) === -1)
+        (v) => !todoList[v].disabled && !todoList[v].type
+    ).filter(id => disabledParent.indexOf(id) === -1);
     const closeFormModal = () => {
         setDisplayModal(!displayModal);
         setEditObj({});
@@ -137,7 +136,7 @@ const Todos = () => {
                         onClick={controlRecord}
                     />
                 </div>
-                {!recordID && 
+                {!recordID &&
                     <Button
                         classes="button button--primary"
                         text="Delete All"
@@ -163,7 +162,7 @@ const Todos = () => {
                 <div className="todo__list">
                     {todoListFiltered.map((id) => {
                         const updatedID = Object.keys(todoList).filter(
-                            v => todoList[v].type && todoList[v].parent === id 
+                            v => todoList[v].type && todoList[v].parent === id
                         ).sort((a, b) => (todoList[a].createdAt > todoList[b].createdAt ? -1 : 1))[0];
                         return (
                             <Todo

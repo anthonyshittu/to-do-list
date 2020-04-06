@@ -24,7 +24,7 @@ const Recordings = () => {
             obj = record.param;
             obj['action'] = 'update';
         } else {
-            obj = {...todos[record.id]};
+            obj = { ...todos[record.id] };
             obj['action'] = record.action;
         }
         return obj;
