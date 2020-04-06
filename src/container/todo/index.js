@@ -150,7 +150,7 @@ const Todos = () => {
                     {todoListFiltered.map((id) => {
                         const updatedID = Object.keys(todoList).filter(
                             v => todoList[v].type && todoList[v].parent === id
-                        ).sort((a, b) => (todoList[a].createdAt > todoList[b].createdAt ? 1 : -1))[0];
+                        ).sort((a, b) => (todoList[a].createdAt > todoList[b].createdAt ? -1 : 1))[0];
                         return (
                             <Todo
                                 key={`todo_${id}`}

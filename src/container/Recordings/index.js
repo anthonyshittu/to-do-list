@@ -17,46 +17,58 @@ const Recordings = () => {
     const [recordingItems, setRecordingItems] = useState([]);
     const [play, setPlay] = useState(false);
     const dispatch = useDispatch();
+    const setRecordObj = (record) => {
+        let obj;
+        if (record.action === 'update') {
+            obj = record.param;
+            obj['action'] = 'update';
+        } else {
+            obj = todos[record.id];
+            obj['action'] = record.action;
+        }
+        return obj;
+    };
     const handleTransition = (id) => {
         if (id) {
             const current = [];
             const recordedList = [];
             const ids = [];
-            recordings[id].currentItems.map((v) => {
-                const list = Object.keys(todos).filter(i => todos[i].parent === v && recordings[id]);
-                const listSorted = list.sort((a, b) => (todos[a].createdAt > todos[b].createdAt ? -1 : 1));
-                let selectedID;
+            if (recordings[id].currentItems.length === 0) {
                 recordings[id].recordedIDs.map((record) => {
-                    if (record.action === 'update') {
-                        if (listSorted.indexOf(record.param.id) > -1) {
-                            const index = listSorted.findIndex(i => i === record.param.id);
-                            listSorted.splice(index, 1);
-                            selectedID = listSorted[0];
-                        }
-                    }
-
-                    let obj;
-                    if (record.action === 'update') {
-                        obj = record.param;
-                        obj['action'] = 'update';
-                    } else {
-                        obj = todos[record.id];
-                        obj['action'] = record.action;
-                    }
-                    if (ids.indexOf(obj.id) === -1) {
-                        ids.push(obj.id);
-                        recordedList.push(obj);
-                    }
+                    recordedList.push(setRecordObj(record));
                 });
-                const selectedTodo = todos[v];
-                if (selectedID) {
-                    selectedTodo.name = todos[selectedID].name;
-                    selectedTodo.desc = todos[selectedID].desc;
-                }
-                current.push(selectedTodo);
-            });
-            setCurrentItems(current);
-            setRecordingItems(recordedList);
+                setRecordingItems(recordedList);
+            } else {
+                recordings[id].currentItems.map((v) => {
+                    const list = Object.keys(todos).filter(i => todos[i].parent === v && recordings[id]);
+                    const listSorted = list.sort((a, b) => (todos[a].createdAt > todos[b].createdAt ? -1 : 1));
+                    let selectedID;
+                    recordings[id].recordedIDs.map((record) => {
+                        if (record.action === 'update') {
+                            if (listSorted.indexOf(record.param.id) > -1) {
+                                const index = listSorted.findIndex(i => i === record.param.id);
+                                listSorted.splice(index, 1);
+                                selectedID = listSorted[0];
+                            }
+                        }
+
+                        const obj = setRecordObj(record);
+                        if (ids.indexOf(obj.id) === -1) {
+                            ids.push(obj.id);
+                            recordedList.push(obj);
+                        }
+                        return;
+                    });
+                    const selectedTodo = todos[v];
+                    if (selectedID) {
+                        selectedTodo.name = todos[selectedID].name;
+                        selectedTodo.desc = todos[selectedID].desc;
+                    }
+                    current.push(selectedTodo);
+                });
+                setCurrentItems(current);
+                setRecordingItems(recordedList);
+            }
         }
         setPlay(!play);
     };

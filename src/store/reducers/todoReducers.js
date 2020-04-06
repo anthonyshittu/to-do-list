@@ -8,10 +8,7 @@ const todoReducers = (state = {}, { type, payload }) => {
             state[payload]['disabled'] = true;
             return { ...state };
         case 'EMPTY_TODO':
-            Object.keys(state).map((v) => {
-                state[v]['disabled'] = true;
-            });
-            return { ...state };
+            return { };
         default:
             return state;
     }

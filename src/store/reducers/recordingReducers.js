@@ -1,4 +1,5 @@
 /* eslint-disable prefer-reflect */
+
 const recordingReducers = (state = {}, { type, payload }) => {
     switch (type) {
         case 'ADD_RECORDING':
