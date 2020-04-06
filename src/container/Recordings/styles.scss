@@ -1,0 +1,89 @@
+.recordings {
+  margin: 70px 20px;
+  max-width: 970px;
+  @media (max-width:599px) {
+    width: 100%;
+    max-width: 100%;
+    align-content: center;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    margin: 70px 0;
+    flex-wrap: wrap;
+  }
+  &__container {
+    display: flex;
+    border: 1px solid #E9E9E9;
+    width: 500px;
+    padding: 10px;
+    margin-bottom: 10px;
+    background: white;
+    justify-content: space-between;
+
+    @media (max-width:599px) {
+      width: 100%;
+      padding: 10px 2px;
+      justify-content: space-between;
+      .svg--close {
+        margin-right: 2px;
+      }
+    }
+    > div {
+      display: flex;
+    }
+  }
+  &--delete {
+    width: 50%;
+    margin-bottom: 10px;
+    @media (max-width:599px) {
+      width: 100%;
+    }
+  }
+  &__list {
+    @media (max-width:599px) {
+      width: 100%;
+    }
+    &--hide {
+      transform: translateX(100vw);
+      transition: all 400ms;
+      display: none;
+    }
+
+    &--show {
+      transform: translateX(0%);
+      transition: all 400ms;
+    }
+  }
+  &__player {
+    display: flex;
+    margin-top: 20px;
+    @media (max-width:599px) {
+      flex-wrap: wrap;
+      width: 100%;
+      .todo__container {
+        width: 100%;
+        max-width: 100%;
+        margin-bottom: 10px;
+      }
+    }
+    &--hide {
+      transform: translateX(100vw);
+      transition: all 400ms;
+    }
+
+    &--show {
+      transform: translateX(0%);
+      transition: all 400ms;
+    }
+  }
+}
+
+.svg--close {
+  cursor: pointer;
+  outline: none;
+  position: relative;
+  right: 0;
+  margin-left: 5px;
+  top: 0;
+  z-index: 2;
+}

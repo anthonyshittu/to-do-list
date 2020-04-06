@@ -1,0 +1,11 @@
+body {
+  margin: 0 !important;
+  background-color: #F7F8F8;
+}
+
+.svg {
+  fill: #0a1e2d;
+  &:hover, &:focus {
+    fill: #F9491F;
+  }
+}

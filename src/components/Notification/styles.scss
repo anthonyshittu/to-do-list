@@ -1,0 +1,34 @@
+.notification { 
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  padding: 15px 20px;
+
+  p {
+    font-size: 15px;
+  }
+
+  &--message {
+    background: #F3F8F3;
+    color: #4E9E4E;
+  }
+
+  &--warning {
+    background: #FFF2E3;
+    color: #F28F1C;
+  }
+
+  &--error {
+    background: #FDF4F5;
+    color: #DC1E32;
+    
+    p {
+      margin: 0 auto;
+    }
+  }
+
+  @media(max-width: 599px) {
+    padding: 20px 30px;
+    width: 100%;
+  }
+}

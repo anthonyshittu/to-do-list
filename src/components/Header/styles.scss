@@ -1,0 +1,30 @@
+.header {
+  height: 40px;
+  background: white;
+  color: #0a1e2d;
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+  position: fixed;
+  max-width: 100vw;
+  top: 0;
+  z-index: 100;
+  text-decoration: none;
+  &__todo {
+    border-right: 5px solid #F9491F;
+  }
+  &__todo, &__recording {
+    &--selected {
+      background-color: #0a1e2d;
+      color: white;
+    }
+    border: 1px solid #0a1e2d;
+    color: #0a1e2d;
+    align-items: center;
+    justify-content: center;
+    display: grid;
+    text-align: center;
+    width: 50%;
+    text-decoration: none;
+  }
+}
